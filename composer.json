@@ -1,0 +1,25 @@
+{
+    "name": "just/minify",
+    "description": "A Laravel 4 package for minifying your .css and .js. It caches the file with an uniq fingerprint. When you adjust your CSS/JS, your old cached/minified files are deleted, and a new cachefile is placed.",
+    "authors": [
+        {
+            "name": "Cees van Egmond",
+            "email": "cees@ceesvanegmond.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.0.x",
+        "natxet/CssMin": "dev-master",
+        "linkorb/jsmin-php": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "CeesVanEgmond\\Minify": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "minimum-stability": "dev"
+}
