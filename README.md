@@ -53,3 +53,5 @@ Or CSS
 </pre>
 
 You'll notice that you can set multiple files as an array, or just one file (string)
+The system will only react if you're' not on the 'local' environment!!!
+
