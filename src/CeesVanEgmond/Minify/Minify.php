@@ -55,7 +55,7 @@ class Minify {
 				
 		$totalmod = $this->doFilesExistReturnModified();
 
-		$filename = str_replace('.css', '', implode('-', $this->files)) . '-' . md5($totalmod).'.css';
+		$filename = md5(str_replace('.css', '', implode('-', $this->files)) . '-' . $totalmod).'.css';
 		$output = $this->buildpath . $filename;
 
 		if ( \File::exists($output) ) {
@@ -89,7 +89,7 @@ class Minify {
 				
 		$totalmod = $this->doFilesExistReturnModified();
 
-		$filename = str_replace('.js', '', implode('-', $this->files)) . '-' . md5($totalmod).'.js';
+		$filename = md5(str_replace('.js', '', implode('-', $this->files)) . '-' . $totalmod).'.js';
 		$output = $this->buildpath . $filename;
 
 		if ( \File::exists($output) ) {
