@@ -16,7 +16,8 @@ if ( ! function_exists('stylesheet'))
         if (App::environment() !== 'local')
             return \HTML::style(App::make('minify')->minifyCss($args));
 
-        $path = Config::get('minify::css_path', '/css/');
+        $path = Config::get('minify.css_path', Config::get('minify::css_path', '/css/'));
+
         $return = '';
         foreach ($args as $arg)
         {
@@ -43,7 +44,8 @@ if ( ! function_exists('javascript'))
         if (App::environment() !== 'local')
             return \HTML::script(App::make('minify')->minifyJs($args));
         
-        $path = Config::get('minify::js_path', '/js/');
+        $path = Config::get('minify.js_path', Config::get('minify::js_path', '/js/'));
+        
         $return = '';
         foreach ($args as $arg)
         {
