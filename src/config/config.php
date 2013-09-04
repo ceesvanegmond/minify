@@ -24,7 +24,7 @@ return array(
     |
     | Minify is an extention that can minify your JS files into one build file.
     | The JS_path property is the location where your JS files are located
-    | The css_builds_path property is the location where the builded files are
+    | The JS_builds_path property is the location where the builded files are
     | stored.  THis is relative to the css_path property.
     |
     */
