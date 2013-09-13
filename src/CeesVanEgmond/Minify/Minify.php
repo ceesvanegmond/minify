@@ -64,7 +64,7 @@ class Minify {
 
 		$all = $this->appendAllFiles();	
 		$result = \CssMin::minify($all);		
-		$this->cleanPreviousFiles($this->buildpath, $filename);
+		// $this->cleanPreviousFiles($this->buildpath, $filename);
 
 		\File::put($output, $result);
 
@@ -98,7 +98,7 @@ class Minify {
 		
 		$all = $this->appendAllFiles();	
 		$result = \JSMin::minify($all);		
-		$this->cleanPreviousFiles($this->buildpath, $filename);
+		// $this->cleanPreviousFiles($this->buildpath, $filename);
 
 		\File::put($output, $result);
 
