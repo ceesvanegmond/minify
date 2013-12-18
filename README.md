@@ -11,9 +11,13 @@ Add the following line in your composer.json
 <pre>
   "ceesvanegmond/minify": "dev-master"
 </pre>
-Please add the following line in your config/app.php
+Please add the following line in your config/app.php under 'providers'.
 <pre>
-  	'CeesVanEgmond\Minify\MinifyServiceProvider',
+  'CeesVanEgmond\Minify\MinifyServiceProvider',
+</pre>
+Run command
+<pre>
+  composer update
 </pre>
 
 <h3>Config</h3>
