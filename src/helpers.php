@@ -10,18 +10,18 @@ if ( ! function_exists('stylesheet'))
      * @access public
      * @return mixed Value.
      */
-    function stylesheet($args)
+    function stylesheet($args, array $attributes = array())
     {
         $args = cast_to_array($args);
         if (App::environment() !== 'local')
-            return \HTML::style(App::make('minify')->minifyCss($args));
+            return \HTML::style(App::make('minify')->minifyCss($args), $attributes);
 
         $path = Config::get('minify.css_path', Config::get('minify::css_path', '/css/'));
 
         $return = '';
         foreach ($args as $arg)
         {
-            $return .= \HTML::style($path . $arg);
+            $return .= \HTML::style($path . $arg, $attributes);
         }
 
         return $return;
@@ -38,18 +38,18 @@ if ( ! function_exists('javascript'))
      * @access public
      * @return mixed Value.
      */
-    function javascript($args)
+    function javascript($args, array $attributes = array())
     {
         $args = cast_to_array($args);
         if (App::environment() !== 'local')
-            return \HTML::script(App::make('minify')->minifyJs($args));
+            return \HTML::script(App::make('minify')->minifyJs($args), $attributes);
         
         $path = Config::get('minify.js_path', Config::get('minify::js_path', '/js/'));
         
         $return = '';
         foreach ($args as $arg)
         {
-            $return .= \HTML::script($path . $arg);
+            $return .= \HTML::script($path . $arg, $attributes);
         }
 
         return $return;
