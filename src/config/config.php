@@ -7,7 +7,7 @@ return array(
     | App environments to not minify
     |--------------------------------------------------------------------------
     |
-    | These environments will be minified
+    | These environments will not be minified
     |
     */
 

@@ -14,7 +14,7 @@ if ( ! function_exists('stylesheet'))
     function stylesheet($args, array $attributes = array())
     {
         $args = cast_to_array($args);
-        if (!if_array(App::environment(), Config::get('minify::ignore_min'))) {
+        if (!in_array(App::environment(), Config::get('minify::ignore_min'))) {
             $url = App::make('minify')->minifyCss($args);
 
             return \HTML::style($url, $attributes);
@@ -47,7 +47,7 @@ if ( ! function_exists('javascript'))
     function javascript($args, array $attributes = array())
     {
         $args = cast_to_array($args);
-        if (!if_array(App::environment(), Config::get('minify::ignore_min'))) {
+        if (!in_array(App::environment(), Config::get('minify::ignore_min'))) {
             $url = App::make('minify')->minifyJs($args);
             return \HTML::script($url, $attributes);
         }
