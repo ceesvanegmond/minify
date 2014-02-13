@@ -1,13 +1,11 @@
 <?php namespace CeesVanEgmond\Minify;
 
-/**
-* Minify
-*
-* @uses     
-*
-* @category Category
-* @package  Package
-*/
+use Config;
+use CssMin;
+use Exception;
+use JSMin;
+use File;
+
 class Minify {
 
     /**
@@ -48,8 +46,8 @@ class Minify {
 	public function minifyCss($files)
 	{
 		$this->files = $files;
-		$this->path = public_path() . \Config::get('minify::css_path');		
-		$this->buildpath = $this->path . \Config::get('minify::css_build_path');
+		$this->path = public_path() . Config::get('minify::css_path');		
+		$this->buildpath = $this->path . Config::get('minify::css_build_path');
 		
 		$this->createBuildPath();	
 				
@@ -58,15 +56,14 @@ class Minify {
 		$filename = md5(str_replace('.css', '', implode('-', $this->files)) . '-' . $totalmod).'.css';
 		$output = $this->buildpath . $filename;
 
-		if ( \File::exists($output) ) {
+		if ( file_exists($output) ) {
 			return $this->absoluteToRelative($output);
 		}
 
 		$all = $this->appendAllFiles();	
-		$result = \CssMin::minify($all);		
-		// $this->cleanPreviousFiles($this->buildpath, $filename);
+		$result = CssMin::minify($all);		
 
-		\File::put($output, $result);
+		file_put_contents($output, $result);
 
 		return $this->absoluteToRelative($output);
 	}
@@ -82,8 +79,8 @@ class Minify {
 	public function minifyJs($files)
 	{
 		$this->files = $files;
-		$this->path = public_path() . \Config::get('minify::js_path');		
-		$this->buildpath = $this->path . \Config::get('minify::js_build_path');
+		$this->path = public_path() . Config::get('minify::js_path');		
+		$this->buildpath = $this->path . Config::get('minify::js_build_path');
 
 		$this->createBuildPath();	
 				
@@ -92,15 +89,14 @@ class Minify {
 		$filename = md5(str_replace('.js', '', implode('-', $this->files)) . '-' . $totalmod).'.js';
 		$output = $this->buildpath . $filename;
 
-		if ( \File::exists($output) ) {
+		if ( file_exists($output) ) {
 			return $this->absoluteToRelative($output);
 		}
 		
 		$all = $this->appendAllFiles();	
-		$result = \JSMin::minify($all);		
-		// $this->cleanPreviousFiles($this->buildpath, $filename);
+		$result = JSMin::minify($all);		
 
-		\File::put($output, $result);
+		file_put_contents($output, $result);
 
 		return $this->absoluteToRelative($output);
 	}
@@ -113,31 +109,11 @@ class Minify {
      */
 	private function createBuildPath()
 	{		
-		if ( ! \File::isDirectory($this->buildpath) )
-		{
-			\File::makeDirectory($this->buildpath);
+		if ( ! File::isDirectory($this->buildpath) ) {
+			File::makeDirectory($this->buildpath);
 		}
 	}
 
-    /**
-     * cleanPreviousFiles
-     * 
-     * @access private
-     * @return mixed Value.
-     */
-	private function cleanPreviousFiles($dir, $filename)
-	{
-		$ext = \File::extension($filename);
-		$filename = preg_replace('/[a-f0-9]{32,40}/','', $filename);
-		$filename = str_replace('-.' . $ext, '', $filename);
-
-		foreach (\File::files($dir) as $file)
-		{
-			if ( strpos($file, $filename) !== FALSE ) {
-				\File::delete($file);
-			}
-		}
-	}
     /**
      * absoluteToRelative
      * 
@@ -151,7 +127,15 @@ class Minify {
 		return '//' . $this->remove_http(\URL::asset(str_replace(public_path(), '', $url)));
 	}
 
-    public function remove_http($url) {
+    /**
+     * remove_http
+     * 
+     * @param mixed $url Description.
+     *
+     * @access private
+     * @return mixed Value.
+     */
+    private function remove_http($url) {
         $disallowed = array('http://', 'https://');
         foreach($disallowed as $d) {
             if(strpos($url, $d) === 0) {
@@ -171,10 +155,11 @@ class Minify {
 	{		
 		$all = '';
 		foreach ($this->files as $file)
-			$all .= \File::get($this->path . $file);
+			$all .= File::get($this->path . $file);
 
-		if ( ! $all )
+		if ( ! $all ) {
 			throw new Exception;
+		}
 
 		return $all;
 	}
@@ -194,11 +179,11 @@ class Minify {
 		foreach ($this->files as $file) {
 			$absolutefile = $this->path . $file;
 
-			if ( ! \File::exists($absolutefile)) {			
-				throw new \Exception;
+			if ( ! File::exists($absolutefile)) {			
+				throw new Exception;
 			}
 
-			$filetime += \File::lastModified($absolutefile);
+			$filetime += File::lastModified($absolutefile);
 
 		}
 

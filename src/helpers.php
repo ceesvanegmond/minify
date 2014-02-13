@@ -14,10 +14,10 @@ if ( ! function_exists('stylesheet'))
     function stylesheet($args, array $attributes = array())
     {
         $args = cast_to_array($args);
-        if (!in_array(App::environment(), Config::get('minify::ignore_min'))) {
+        if (!in_array(App::environment(), Config::get('minify::ignore_envionments'))) {
             $url = App::make('minify')->minifyCss($args);
 
-            return \HTML::style($url, $attributes);
+            return HTML::style($url, $attributes);
         }
 
         $path = Config::get('minify.css_path', Config::get('minify::css_path', '/css/'));
@@ -25,7 +25,7 @@ if ( ! function_exists('stylesheet'))
         $return = '';
         foreach ($args as $arg)
         {
-            $return .= \HTML::style($path . $arg, $attributes);
+            $return .= HTML::style($path . $arg, $attributes);
         }
 
         return $return;
@@ -47,9 +47,9 @@ if ( ! function_exists('javascript'))
     function javascript($args, array $attributes = array())
     {
         $args = cast_to_array($args);
-        if (!in_array(App::environment(), Config::get('minify::ignore_min'))) {
+        if (!in_array(App::environment(), Config::get('minify::ignore_envionments'))) {
             $url = App::make('minify')->minifyJs($args);
-            return \HTML::script($url, $attributes);
+            return HTML::script($url, $attributes);
         }
         
         $path = Config::get('minify.js_path', Config::get('minify::js_path', '/js/'));
@@ -57,7 +57,7 @@ if ( ! function_exists('javascript'))
         $return = '';
         foreach ($args as $arg)
         {
-            $return .= \HTML::script($path . $arg, $attributes);
+            $return .= HTML::script($path . $arg, $attributes);
         }
 
         return $return;

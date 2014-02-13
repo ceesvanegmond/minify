@@ -11,9 +11,8 @@ return array(
     |
     */
 
-    'ignore_min' => array(
+    'ignore_envionments' => array(
 	     'local',
-
     ),
 
 	/*
