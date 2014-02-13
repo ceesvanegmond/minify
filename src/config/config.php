@@ -12,6 +12,7 @@ return array(
     */
 
     'ignore_min' => array(
+	     'local',
 
     ),
 

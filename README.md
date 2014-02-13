@@ -21,11 +21,12 @@ Run command
 </pre>
 
 <h3>Config</h3>
-You can publish the config file via
+You can publish the config file via this command.
 <pre>
 php artisan config:publish ceesvanegmond/minify
 </pre>
 
+Info about the different configurations
 <pre>
 'ignore_min' => Environments to not minify
 'css_path' => The CSS path (from your public) defaults to '/css/'
