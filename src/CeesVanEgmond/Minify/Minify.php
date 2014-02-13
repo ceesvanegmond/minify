@@ -148,8 +148,18 @@ class Minify {
      */
 	private function absoluteToRelative($url)
 	{
-		return \URL::asset(str_replace(public_path(), '', $url));		
+		return '//' . $this->remove_http(\URL::asset(str_replace(public_path(), '', $url)));
 	}
+
+    public function remove_http($url) {
+        $disallowed = array('http://', 'https://');
+        foreach($disallowed as $d) {
+            if(strpos($url, $d) === 0) {
+                return str_replace($d, '', $url);
+            }
+        }
+        return $url;
+    }
 
     /**
      * appendAllFiles
