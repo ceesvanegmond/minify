@@ -4,17 +4,21 @@ if ( ! function_exists('stylesheet'))
 {
     /**
      * stylesheet
-     * 
+     *
      * @param mixed $args Description.
      *
+     * @param array $attributes
      * @access public
      * @return mixed Value.
      */
     function stylesheet($args, array $attributes = array())
     {
         $args = cast_to_array($args);
-        if (App::environment() !== 'local')
-            return \HTML::style(App::make('minify')->minifyCss($args), $attributes);
+        if (!in_array(App::environment(), Config::get('minify::ignore_min'))) {
+            $url = App::make('minify')->minifyCss($args);
+
+            return \HTML::style($url, $attributes);
+        }
 
         $path = Config::get('minify.css_path', Config::get('minify::css_path', '/css/'));
 
@@ -26,23 +30,27 @@ if ( ! function_exists('stylesheet'))
 
         return $return;
     }
+
 }
 
 if ( ! function_exists('javascript'))
 {
     /**
      * javascript
-     * 
+     *
      * @param mixed $args Description.
      *
+     * @param array $attributes
      * @access public
      * @return mixed Value.
      */
     function javascript($args, array $attributes = array())
     {
         $args = cast_to_array($args);
-        if (App::environment() !== 'local')
-            return \HTML::script(App::make('minify')->minifyJs($args), $attributes);
+        if (!in_array(App::environment(), Config::get('minify::ignore_min'))) {
+            $url = App::make('minify')->minifyJs($args);
+            return \HTML::script($url, $attributes);
+        }
         
         $path = Config::get('minify.js_path', Config::get('minify::js_path', '/js/'));
         
