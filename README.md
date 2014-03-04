@@ -35,7 +35,8 @@ Info about the different configurations
 'js_build_path' => The build path where the minified + concatenate build files are (relative from above aption) defaults to 'builds/'
 </pre>
 
-That's it, you can now start using the package
+That's it, you can now start using the package<br>
+<b>Notice that the builds dirs have to be writeable by the server</b>
 
 <h3>Usage</h3>
 There are two helpers available to use, the 'stylesheet' helper, and the 'javascript' helper
@@ -61,7 +62,3 @@ Or CSS
 <pre>
 {{ stylesheet('main.css') }}
 </pre>
-
-You'll notice that you can set multiple files as an array, or just one file (string)
-The system will only react if you're' not on the 'local' environment!!!
-
