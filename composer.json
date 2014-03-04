@@ -9,10 +9,10 @@
         }
     ],
     "require": {
-        "php": ">=5.3.0",
+        "php": ">=5.3.7",
         "illuminate/support": "~4",
-        "natxet/cssmin": "dev-master",
-        "linkorb/jsmin-php": "dev-master"
+        "natxet/cssmin": "3.*",
+        "linkorb/jsmin-php": "1.*"
     },
     "autoload": {
         "psr-0": {
