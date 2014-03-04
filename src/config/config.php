@@ -2,6 +2,19 @@
 
 return array(
 
+    /*
+    |--------------------------------------------------------------------------
+    | App environments to not minify
+    |--------------------------------------------------------------------------
+    |
+    | These environments will not be minified
+    |
+    */
+
+    'ignore_envionments' => array(
+	     'local',
+    ),
+
 	/*
     |--------------------------------------------------------------------------
     | CSS path and CSS build path
