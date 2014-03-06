@@ -1,31 +1,32 @@
 <?php
 
-if ( ! function_exists('stylesheet'))
+if(!function_exists('stylesheet'))
 {
     /**
      * stylesheet
      *
-     * @param mixed $args Description.
-     *
+     * @param $files
      * @param array $attributes
+     * @internal param mixed $args Description.
+     *
      * @access public
      * @return mixed Value.
      */
-    function stylesheet($args, array $attributes = array())
+    function stylesheet($files, array $attributes = array())
     {
-        $args = cast_to_array($args);
-        if (!in_array(App::environment(), Config::get('minify::ignore_envionments'))) {
-            $url = App::make('minify')->minifyCss($args);
+        if(!in_array(App::environment(), Config::get('minify::ignore_envionments')))
+        {
+            $url = App::make('minify')->styles((array)$files);
 
             return HTML::style($url, $attributes);
         }
 
-        $path = Config::get('minify.css_path', Config::get('minify::css_path', '/css/'));
+        $path = Config::get('minify.css_path', Config::get('minify::css_path'));
 
-        $return = '';
-        foreach ($args as $arg)
+        $return = null;
+        foreach ($files as $file)
         {
-            $return .= HTML::style($path . $arg, $attributes);
+            $return .= HTML::style($path . $file, $attributes);
         }
 
         return $return;
@@ -33,52 +34,34 @@ if ( ! function_exists('stylesheet'))
 
 }
 
-if ( ! function_exists('javascript'))
+if(!function_exists('javascript'))
 {
     /**
      * javascript
      *
-     * @param mixed $args Description.
+     * @param mixed $files Description.
      *
      * @param array $attributes
      * @access public
      * @return mixed Value.
      */
-    function javascript($args, array $attributes = array())
+    function javascript($files, array $attributes = array())
     {
-        $args = cast_to_array($args);
-        if (!in_array(App::environment(), Config::get('minify::ignore_envionments'))) {
-            $url = App::make('minify')->minifyJs($args);
+        if(!in_array(App::environment(), Config::get('minify::ignore_envionments')))
+        {
+            $url = App::make('minify')->javascript((array)$files);
+
             return HTML::script($url, $attributes);
         }
-        
+
         $path = Config::get('minify.js_path', Config::get('minify::js_path', '/js/'));
-        
-        $return = '';
-        foreach ($args as $arg)
+
+        $return = null;
+        foreach ($files as $file)
         {
-            $return .= HTML::script($path . $arg, $attributes);
+            $return .= HTML::script($path . $file, $attributes);
         }
 
         return $return;
-    }
-}
-
-if ( ! function_exists('cast_to_array'))
-{
-    /**
-     * cast_to_array
-     * 
-     * @param mixed $args Description.
-     *
-     * @access public
-     * @return mixed Value.
-     */
-    function cast_to_array($args)
-    {
-        if (!is_array($args))
-            $args = array($args);
-
-        return $args;    
     }
 }
