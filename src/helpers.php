@@ -14,9 +14,10 @@ if(!function_exists('stylesheet'))
      */
     function stylesheet($files, array $attributes = array())
     {
+        $files = (array)$files;
         if(!in_array(App::environment(), Config::get('minify::ignore_envionments')))
         {
-            $url = App::make('minify')->styles((array)$files);
+            $url = App::make('minify')->styles($files);
 
             return HTML::style($url, $attributes);
         }
@@ -47,9 +48,10 @@ if(!function_exists('javascript'))
      */
     function javascript($files, array $attributes = array())
     {
+        $files = (array)$files;
         if(!in_array(App::environment(), Config::get('minify::ignore_envionments')))
         {
-            $url = App::make('minify')->javascript((array)$files);
+            $url = App::make('minify')->javascript($files);
 
             return HTML::script($url, $attributes);
         }
