@@ -1,6 +1,9 @@
 # Minify
 
 [![Build Status](https://travis-ci.org/ceesvanegmond/minify.svg?branch=master)](https://travis-ci.org/ceesvanegmond/minify)
+[![Latest Stable Version](https://poser.pugx.org/ceesvanegmond/minify/v/stable.png)](https://packagist.org/packages/ceesvanegmond/minify)
+[![Total Downloads](https://poser.pugx.org/ceesvanegmond/minify/downloads.png)](https://packagist.org/packages/ceesvanegmond/minify)
+[![License](https://poser.pugx.org/ceesvanegmond/minify/license.png)](https://packagist.org/packages/ceesvanegmond/minify)
 
 With this package you can minify your existing stylessheet and javascript files. This process can be a little tough, this package simplies this process and automates it.
 
