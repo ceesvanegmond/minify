@@ -11,7 +11,7 @@ Begin by installing this package through Composer.
 ```js
 {
     "require": {
-    	"ceesvanegmond/minify": "1.0.*"
+    	"ceesvanegmond/minify": "2.0.*"
 	}
 }
 ```
