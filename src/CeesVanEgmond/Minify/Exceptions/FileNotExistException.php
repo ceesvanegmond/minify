@@ -1,3 +1,3 @@
 <?php namespace CeesVanEgmond\Minify\Exceptions;
 
-class FileNotFoundException extends \Exception {}
+class FileNotExistException extends \Exception {}

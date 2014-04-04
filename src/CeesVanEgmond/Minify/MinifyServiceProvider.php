@@ -1,5 +1,7 @@
 <?php namespace CeesVanEgmond\Minify;
 
+use Config;
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
 class MinifyServiceProvider extends ServiceProvider {
@@ -19,6 +21,11 @@ class MinifyServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		$this->package('ceesvanegmond/minify');
+
+        AliasLoader::getInstance()->alias(
+            'Minify',
+            'CeesVanEgmond\Minify\Facades\Minify'
+        );
 	}
 
 	/**
@@ -28,9 +35,16 @@ class MinifyServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app['minify'] = $this->app->share(function($app)
+		$this->app['Minify'] = $this->app->share(function($app)
         {
-            return new Minify;
+            return new Minify(
+                array(
+                    'css_build_path' => Config::get('minify::css_build_path'),
+                    'js_build_path' => Config::get('minify::js_build_path'),
+                    'ignore_envionments' => Config::get('minify::ignore_envionments'),
+                ),
+                $app->environment()
+            );
         });
 	}
 
@@ -43,5 +57,4 @@ class MinifyServiceProvider extends ServiceProvider {
 	{
 		return array('minify');
 	}
-
 }

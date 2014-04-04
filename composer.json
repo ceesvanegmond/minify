@@ -1,7 +1,8 @@
 {
     "name": "ceesvanegmond/minify",
     "keywords": ["minify", "laravel"],
-    "description": "A Laravel 4 package for minifying your .css and .js. It caches the file with an uniq fingerprint. When you adjust your CSS/JS, your old cached/minified files are deleted, and a new cachefile is placed.",
+    "description": "A package for minifying styles and javascript ",
+    "license": "MIT",
     "authors": [
         {
             "name": "Cees van Egmond",
@@ -9,18 +10,18 @@
         }
     ],
     "require": {
-        "php": ">=5.3.7",
-        "illuminate/support": "~4",
-        "natxet/cssmin": "3.*",
-        "linkorb/jsmin-php": "1.*"
+        "php": ">=5.3.2",
+        "linkorb/jsmin-php": "1.*",
+        "natxet/CssMin": "3.*"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "2.0.0",
+        "mikey179/vfsStream": "1.2.*"
     },
     "autoload": {
         "psr-0": {
             "CeesVanEgmond\\Minify": "src/"
-        },
-        "files": [
-            "src/helpers.php"
-        ]
+        }
     },
-    "license": "MIT"
+    "minimum-stability": "stable"
 }

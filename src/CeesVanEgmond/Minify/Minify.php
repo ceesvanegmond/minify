@@ -1,191 +1,77 @@
-<?php namespace CeesVanEgmond\Minify;
+<?php  namespace CeesVanEgmond\Minify; 
 
-use CeesVanEgmond\Minify\Exceptions\FileNotFoundException;
-use Config;
-use CssMin;
-use JSMin;
+use CeesVanEgmond\Minify\Providers\JavaScript;
+use CeesVanEgmond\Minify\Providers\StyleSheet;
 
 class Minify
 {
     /**
-     * $files
-     *
      * @var array
-     *
-     * @access protected
      */
-    protected $files;
+    protected $config;
 
     /**
-     * $buildpath
-     *
      * @var string
-     *
-     * @access protected
      */
-    protected $buildpath;
+    private $environment;
 
     /**
-     * $path
-     *
-     * @var string
-     *
-     * @access protected
+     * @param array $config
+     * @param $environment
      */
-    protected $path;
-
-    /**
-     * styles
-     *
-     * @param mixed $files
-     *
-     * @access public
-     * @return mixed Value.
-     */
-    public function styles(array $files)
+    public function __construct(array $config, $environment)
     {
-        $jsPath = Config::get('minify::css_path');
-        $jsBuildPath = Config::get('minify::css_build_path');
-
-        list($filehash, $output, $relative) = $this->before($files, $jsPath, $jsBuildPath, '.css');
-
-        if(!file_exists($output))
-        {
-            $result = CssMin::minify($this->appendAllFiles());
-
-            $this->deleteOldMinifiedFiles($filehash);
-
-            file_put_contents($output, $result);
-        }
-
-        return $relative;
+        $this->config = $config;
+        $this->environment = $environment;
     }
 
     /**
-     * javascript
-     *
-     * @param mixed $files Description.
-     *
-     * @access public
-     * @return mixed Value.
+     * @param $file
+     * @return string
      */
-    public function javascript(array $files)
+    public function javascript($file)
     {
-        $jsPath = Config::get('minify::js_path');
-        $jsBuildPath = Config::get('minify::js_build_path');
+        $provider = new JavaScript(public_path());
+        $buildPath = $this->config['js_build_path'];
 
-        list($filehash, $output, $relative) = $this->before($files, $jsPath, $jsBuildPath, '.js');
-
-        if(!file_exists($output))
-        {
-            $result = JSMin::minify($this->appendAllFiles());
-
-            $this->deleteOldMinifiedFiles($filehash);
-
-            file_put_contents($output, $result);
-        }
-
-        return $relative;
+        return $this->process($file, $provider, $buildPath);
     }
 
+    /**
+     * @param $file
+     * @return string
+     */
+    public function stylesheet($file)
+    {
+        $provider = new StyleSheet(public_path());
+        $buildPath = $this->config['css_build_path'];
+
+        return $this->process($file, $provider, $buildPath);
+    }
 
     /**
-     * before
-     *
-     * @access protected
-     * @param array $files
-     * @param $path
+     * @param $file
+     * @param $provider
      * @param $buildPath
-     * @param $extension
-     * @return mixed array.
+     * @return string
      */
-    protected function before(array $files, $path, $buildPath, $extension)
+    private function process($file, $provider, $buildPath)
     {
-        $this->files = $files;
-        $this->path = public_path() . $path;
-        $this->buildpath = $this->path . $buildPath;
+        $provider->add($file);
 
-        $this->createBuildPathIfNotExist();
-
-        $filehash = md5(implode('-', $this->files));
-        $filename = $filehash . $this->calculateModifiedTimes() . $extension;
-
-        $output = $this->buildpath . $filename;
-        $relative = $path . $buildPath . $filename;
-
-        return array($filehash, $output, $relative);
-    }
-
-    /**
-     * createBuildPathIfNotExist
-     *
-     * @access private
-     */
-    private function createBuildPathIfNotExist()
-    {
-        if(!is_dir($this->buildpath))
+        if (in_array($this->environment, $this->config['ignore_envionments']))
         {
-            mkdir($this->buildpath);
-        }
-    }
-
-    /**
-     * appendAllFiles
-     *
-     * @access private
-     * @return mixed Value.
-     */
-    private function appendAllFiles()
-    {
-        $all = '';
-        foreach ($this->files as $file)
-        {
-            $all .= file_get_contents($this->path . $file);
+            return $provider->tags();
         }
 
-        return $all;
-    }
-
-    /**
-     * calculateModifiedTimes
-     *
-     * @access private
-     * @throws Exceptions\FileNotFoundException
-     * @return mixed string.
-     */
-    private function calculateModifiedTimes()
-    {
-        $time = 0;
-        foreach ($this->files as $file)
+        //Return when minified file already exists
+        if(!$provider->make($buildPath))
         {
-            $filepath = $this->path . $file;
-            if(!file_exists($filepath))
-            {
-                throw new FileNotFoundException("File {$file} doest not exists at {$filepath}");
-            }
-
-            $time += filemtime($filepath);
+            return $provider->tag($buildPath . $provider->getFilename());
         }
 
-        return $time;
-    }
+        $provider->minify();
 
-    /**
-     * calculateModifiedTimes
-     *
-     * Deletes files based on the same files with an other
-     * timestamp
-     *
-     * @access private
-     * @param $filehash
-     */
-    private function deleteOldMinifiedFiles($filehash)
-    {
-        $pattern = $this->buildpath . $filehash . '*';
-
-        foreach (glob($pattern) as $file)
-        {
-            @unlink($file);
-        }
+        return $provider->tag($buildPath . $provider->getFilename());
     }
-}
+} 
