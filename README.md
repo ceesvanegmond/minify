@@ -1,64 +1,139 @@
-Laravel4 Minify Package
-===============
+# Minify
 
-A Laravel 4 package for minifying your .css and .js. It caches the file with an uniq fingerprint. When you adjust your CSS/JS, your old cached/minified files are deleted, and a new cachefile is placed.
+[![Build Status](https://travis-ci.org/ceesvanegmond/minify.svg?branch=master)](https://travis-ci.org/ceesvanegmond/minify)
 
+With this package you can minify your existing stylessheet and javascript files. This process can be a little tough, this package simplies this process and automates it.
 
-<h3>Installation</h3>
-Instal it via composer
+## Installation
 
-Add the following line in your composer.json
-<pre>
-  "ceesvanegmond/minify": "dev-master"
-</pre>
-Please add the following line in your config/app.php under 'providers'.
-<pre>
-  'CeesVanEgmond\Minify\MinifyServiceProvider',
-</pre>
-Run command
-<pre>
-  composer update
-</pre>
+Begin by installing this package through Composer.
 
-<h3>Config</h3>
-You can publish the config file via this command.
-<pre>
-php artisan config:publish ceesvanegmond/minify
-</pre>
+```js
+{
+    "require": {
+    	"ceesvanegmond/minify": "1.0.*"
+	}
+}
+```
 
-Info about the different configurations
-<pre>
-'ignore_min' => Environments to not minify
-'css_path' => The CSS path (from your public) defaults to '/css/'
-'css_build_path' => The build path where the minified + concatenate build files are (relative from above aption) defaults to 'builds/'
-'js_path' => The JS path (from your public) defaults to '/js/'
-'js_build_path' => The build path where the minified + concatenate build files are (relative from above aption) defaults to 'builds/'
-</pre>
+### Laravel installation
+```php
 
-That's it, you can now start using the package<br>
-<b>Notice that the builds dirs have to be writeable by the server</b>
+// app/config/app.php
 
-<h3>Usage</h3>
-There are two helpers available to use, the 'stylesheet' helper, and the 'javascript' helper
-Example to minify your JavaScript (in .blade file)
+'providers' => [
+    '...',
+    'CeesVanEgmond\Minify\MinifyServiceProvider',
+];
+```
 
-<pre>
-{{ javascript(array(
-  	'jquery-1.9.1.min.js',
-		'hashchange.js',
-		'tracer.js',
-		'includes.js',
-		'lightbox.js',
-		'history.js',
-		'transforms.js',
-		'main.js',
-		'ga.js'
-	)) 
-}}
-</pre>
+When you've added the ```MinifyServiceProvider``` an extra ```Minify``` facade is available.
+You can use this Facade anywhere in your application
 
-Or CSS 
+#### Stylesheet
+```php
+// app/views/hello.blade.php
 
-<pre>
-{{ stylesheet('main.css') }}
-</pre>
+<html>
+	<head>
+		...
+		{{ Minify::stylesheet('/css/main.css') }}
+		//or by passing multiple files
+		{{ Minify::stylesheet(array('/css/main.css', '/css/bootstrap.css')) }}
+	</head>
+	...
+</html>
+
+```
+
+#### Javascript
+```php
+// app/views/hello.blade.php
+
+<html>
+	<body>
+	...
+	</body>
+	{{ Minify::javascript('/js/jquery.js') }}
+	//or by passing multiple files
+	{{ Minify::javascript(array('/js/jquery.js', '/js/jquery-ui.js')) }}
+</html>
+
+```
+
+### Config
+```php
+<?php
+
+return array(
+
+    /*
+    |--------------------------------------------------------------------------
+    | App environments to not minify
+    |--------------------------------------------------------------------------
+    |
+    | These environments will not be minified
+    |
+    */
+
+    'ignore_envionments' => array(
+	     'local',
+    ),
+
+    /*
+    |--------------------------------------------------------------------------
+    | CSS path and CSS build path
+    |--------------------------------------------------------------------------
+    |
+    | Minify is an extention that can minify your css files into one build file.
+    | The css_path property is the location where your CSS files are located
+    | The css_builds_path property is the location where the builded files are
+    | stored.  THis is relative to the css_path property.
+    |
+    */
+
+    'css_build_path' => '/css/builds/',
+
+    /*
+    |--------------------------------------------------------------------------
+    | JS path and JS build path
+    |--------------------------------------------------------------------------
+    |
+    | Minify is an extention that can minify your JS files into one build file.
+    | The JS_path property is the location where your JS files are located
+    | The JS_builds_path property is the location where the builded files are
+    | stored.  THis is relative to the css_path property.
+    |
+    */
+
+    'js_build_path' => '/js/builds/',
+
+);
+```
+
+### Without Laravel
+
+```php
+<?php
+$config = array(
+	'ignore_envionments' => 'local',
+	'js_build_path' => '/js/builds/',
+	'css_builds_path' => '/css/builds',
+)
+$minify = new CeesVanEgmond\Minify\Providers\Javascript($public_path);
+$minify->add($file)
+
+if (in_array($environment, $config['ignore_envionments']))
+{
+    return $provider->tags();
+}
+
+if ( ! $minify->make($config['css_build_path'] ) {
+	$filename = $provider->tag($config['css_build_path'] . $provider->getFilename());
+}
+
+$provider->minify();
+
+$filename = $provider->tag($config['css_build_path'] . $provider->getFilename());
+        
+```
