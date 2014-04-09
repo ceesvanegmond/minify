@@ -11,9 +11,24 @@ class Minify
     protected $config;
 
     /**
+     * @var array
+     */
+    protected $attributes = array();
+
+    /**
      * @var string
      */
     private $environment;
+
+    /**
+     * @var
+     */
+    private $provider;
+
+    /**
+     * @var
+     */
+    private $buildPath;
 
     /**
      * @param array $config
@@ -31,10 +46,13 @@ class Minify
      */
     public function javascript($file)
     {
-        $provider = new JavaScript(public_path());
-        $buildPath = $this->config['js_build_path'];
+        $this->provider = new JavaScript(public_path());
+        $this->buildPath = $this->config['js_build_path'];
+        $this->attributes = array();
 
-        return $this->process($file, $provider, $buildPath);
+        $this->process($file);
+
+        return $this;
     }
 
     /**
@@ -43,35 +61,50 @@ class Minify
      */
     public function stylesheet($file)
     {
-        $provider = new StyleSheet(public_path());
-        $buildPath = $this->config['css_build_path'];
+        $this->provider = new StyleSheet(public_path());
+        $this->buildPath = $this->config['css_build_path'];
+        $this->attributes = array();
 
-        return $this->process($file, $provider, $buildPath);
+        $this->process($file);
+
+        return $this;
     }
 
     /**
      * @param $file
-     * @param $provider
-     * @param $buildPath
-     * @return string
      */
-    private function process($file, $provider, $buildPath)
+    private function process($file)
     {
-        $provider->add($file);
-
-        if (in_array($this->environment, $this->config['ignore_envionments']))
-        {
-            return $provider->tags();
-        }
+        $this->provider->add($file);
 
         //Return when minified file already exists
-        if(!$provider->make($buildPath))
+        if($this->provider->make($this->buildPath))
         {
-            return $provider->tag($buildPath . $provider->getFilename());
+            $this->provider->minify();
+        }
+    }
+
+    /**
+     * @param array $attributes
+     * @return $this
+     */
+    public function setAttributes(array $attributes = array())
+    {
+        $this->attributes = $attributes;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        if (in_array($this->environment, $this->config['ignore_envionments']))
+        {
+            $this->provider->tags($this->attributes);
         }
 
-        $provider->minify();
-
-        return $provider->tag($buildPath . $provider->getFilename());
+        return $this->provider->tag($this->buildPath . $this->provider->getFilename(), $this->attributes);
     }
-} 
+}

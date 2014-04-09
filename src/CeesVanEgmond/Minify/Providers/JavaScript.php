@@ -22,10 +22,13 @@ class JavaScript extends BaseProvider implements MinifyInterface
 
     /**
      * @param $file
+     * @param array $attributes
      * @return string
      */
-    public function tag($file)
+    public function tag($file, array $attributes)
     {
-        return "<script src='{$file}'></script>";
+        $attributes['src'] = $file;
+
+        return "<script{$this->attributes($attributes)}></script>";
     }
 }

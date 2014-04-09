@@ -22,10 +22,14 @@ class StyleSheet extends BaseProvider implements MinifyInterface
 
     /**
      * @param $file
+     * @param array $attributes
      * @return string
      */
-    public function tag($file)
+    public function tag($file, array $attributes = array())
     {
-        return "<link href='{$file}' rel='stylesheet'>";
+        $attributes['href'] = $file;
+        $attributes['rel'] = 'stylesheet';
+
+        return "<link{$this->attributes($attributes)}>";
     }
 }
