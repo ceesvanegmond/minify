@@ -43,6 +43,8 @@ You can use this Facade anywhere in your application
 		{{ Minify::stylesheet('/css/main.css') }}
 		//or by passing multiple files
 		{{ Minify::stylesheet(array('/css/main.css', '/css/bootstrap.css')) }}
+		//add custom attributes
+		{{ Minify::stylesheet(array('/css/main.css', '/css/bootstrap.css'))->setAttributes(array('foo' => 'bar') }}
 	</head>
 	...
 </html>
@@ -60,6 +62,8 @@ You can use this Facade anywhere in your application
 	{{ Minify::javascript('/js/jquery.js') }}
 	//or by passing multiple files
 	{{ Minify::javascript(array('/js/jquery.js', '/js/jquery-ui.js')) }}
+	//add custom attributes
+	{{ Minify::javascript(array('/js/jquery.js', '/js/jquery-ui.js'))->setAttributes(array('bar' => 'baz')) }}
 </html>
 
 ```
