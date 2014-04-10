@@ -42,13 +42,14 @@ class Minify
 
     /**
      * @param $file
+     * @param array $attributes
      * @return string
      */
-    public function javascript($file)
+    public function javascript($file, $attributes = array())
     {
         $this->provider = new JavaScript(public_path());
         $this->buildPath = $this->config['js_build_path'];
-        $this->attributes = array();
+        $this->attributes = $attributes;
 
         $this->process($file);
 
@@ -57,13 +58,14 @@ class Minify
 
     /**
      * @param $file
+     * @param array $attributes
      * @return string
      */
-    public function stylesheet($file)
+    public function stylesheet($file, $attributes = array())
     {
         $this->provider = new StyleSheet(public_path());
         $this->buildPath = $this->config['css_build_path'];
-        $this->attributes = array();
+        $this->attributes = $attributes;
 
         $this->process($file);
 
@@ -85,20 +87,9 @@ class Minify
     }
 
     /**
-     * @param array $attributes
-     * @return $this
+     * @return mixed
      */
-    public function setAttributes(array $attributes = array())
-    {
-        $this->attributes = $attributes;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function render()
     {
         if (in_array($this->environment, $this->config['ignore_envionments']))
         {
@@ -106,5 +97,13 @@ class Minify
         }
 
         return $this->provider->tag($this->buildPath . $this->provider->getFilename(), $this->attributes);
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->render();
     }
 }
