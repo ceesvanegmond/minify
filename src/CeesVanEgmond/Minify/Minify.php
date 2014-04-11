@@ -1,5 +1,6 @@
 <?php  namespace CeesVanEgmond\Minify; 
 
+use CeesVanEgmond\Minify\Exceptions\InvalidArgumentException;
 use CeesVanEgmond\Minify\Providers\JavaScript;
 use CeesVanEgmond\Minify\Providers\StyleSheet;
 
@@ -32,10 +33,12 @@ class Minify
 
     /**
      * @param array $config
-     * @param $environment
+     * @param string $environment
      */
     public function __construct(array $config, $environment)
     {
+        $this->checkConfiguration($config);
+
         $this->config = $config;
         $this->environment = $environment;
     }
@@ -79,7 +82,6 @@ class Minify
     {
         $this->provider->add($file);
 
-        //Return when minified file already exists
         if($this->provider->make($this->buildPath))
         {
             $this->provider->minify();
@@ -91,9 +93,9 @@ class Minify
      */
     public function render()
     {
-        if (in_array($this->environment, $this->config['ignore_envionments']))
+        if (in_array($this->environment, $this->config['ignore_environments']))
         {
-            $this->provider->tags($this->attributes);
+            return $this->provider->tags($this->attributes);
         }
 
         return $this->provider->tag($this->buildPath . $this->provider->getFilename(), $this->attributes);
@@ -105,5 +107,20 @@ class Minify
     public function __toString()
     {
         return $this->render();
+    }
+
+    /**
+     * @param array $config
+     * @throws Exceptions\InvalidArgumentException
+     * @return array
+     */
+    private function checkConfiguration(array $config)
+    {
+        if(!isset($config['css_build_path']) || !is_string($config['css_build_path']))
+            throw new InvalidArgumentException("Missing css_build_path field");
+        if(!isset($config['js_build_path']) || !is_string($config['js_build_path']))
+            throw new InvalidArgumentException("Missing js_build_path field");
+        if(!isset($config['ignore_environments']) || !is_array($config['ignore_environments']))
+            throw new InvalidArgumentException("Missing ignore_environments field");
     }
 }

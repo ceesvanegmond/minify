@@ -30,6 +30,6 @@ class StyleSheet extends BaseProvider implements MinifyInterface
         $attributes['href'] = $file;
         $attributes['rel'] = 'stylesheet';
 
-        return "<link{$this->attributes($attributes)}>";
+        return "<link{$this->attributes($attributes)}>" . PHP_EOL;
     }
 }

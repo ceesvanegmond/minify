@@ -12,8 +12,8 @@ return array(
     |
     */
 
-    'ignore_envionments' => array(
-	'local',
+    'ignore_environments' => array(
+	    'local',
     ),
 
     /*
