@@ -83,7 +83,7 @@ return array(
     |
     */
 
-    'ignore_envionments' => array(
+    'ignore_environments' => array(
 	     'local',
     ),
 
@@ -123,14 +123,14 @@ return array(
 ```php
 <?php
 $config = array(
-	'ignore_envionments' => 'local',
+	'ignore_environments' => 'local',
 	'js_build_path' => '/js/builds/',
 	'css_builds_path' => '/css/builds',
 )
 $minify = new CeesVanEgmond\Minify\Providers\Javascript($public_path);
 $minify->add($file)
 
-if (in_array($environment, $config['ignore_envionments']))
+if (in_array($environment, $config['ignore_environments']))
 {
     return $provider->tags();
 }
