@@ -41,7 +41,7 @@ class MinifyServiceProvider extends ServiceProvider {
                 array(
                     'css_build_path' => Config::get('minify::css_build_path'),
                     'js_build_path' => Config::get('minify::js_build_path'),
-                    'ignore_envionments' => Config::get('minify::ignore_envionments'),
+                    'ignore_environments' => Config::get('minify::ignore_environments'),
                 ),
                 $app->environment()
             );

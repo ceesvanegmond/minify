@@ -36,6 +36,18 @@ class StyleSheetSpec extends ObjectBehavior
         $this->shouldHaveCount(2);
     }
 
+    function it_adds_custom_attributes()
+    {
+        $this->tag('file', array('foobar' => 'baz'))
+            ->shouldReturn('<link foobar="baz" href="file" rel="stylesheet">' . PHP_EOL);
+    }
+
+    function it_adds_without_custom_attributes()
+    {
+        $this->tag('file')
+            ->shouldReturn('<link href="file" rel="stylesheet">' . PHP_EOL);
+    }
+
     function it_throws_exception_when_file_not_exists()
     {
         $this->shouldThrow('CeesVanEgmond\Minify\Exceptions\FileNotExistException')
