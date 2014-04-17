@@ -216,11 +216,14 @@ abstract class BaseProvider implements Countable
     {
         $pattern = $this->outputDir . $this->getHashedFilename() . '*';
         $find = glob($pattern);
-        if( is_array($find) )
-        foreach ($find as $file)
+        
+        if( is_array($find) && count($find) )
         {
-            if ( ! unlink($file) ) {
-                throw new CannotRemoveFileException("File '{$file}' cannot be removed");
+            foreach ($find as $file)
+            {
+                if ( ! unlink($file) ) {
+                    throw new CannotRemoveFileException("File '{$file}' cannot be removed");
+                }
             }
         }
     }
