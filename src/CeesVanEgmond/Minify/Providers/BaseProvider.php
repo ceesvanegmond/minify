@@ -6,6 +6,7 @@ use CeesVanEgmond\Minify\Exceptions\DirNotExistException;
 use CeesVanEgmond\Minify\Exceptions\DirNotWritableException;
 use CeesVanEgmond\Minify\Exceptions\FileNotExistException;
 use Countable;
+use URL;
 
 abstract class BaseProvider implements Countable
 {
@@ -75,7 +76,7 @@ abstract class BaseProvider implements Countable
             return array_map(array($this, 'add'), $file);
         }
 
-        $file = $this->publicPath . $file;
+        $file = $this->publicPath .'/'. $file;
         if (!file_exists($file))
         {
             throw new FileNotExistException("File '{$file}' does not exist");
@@ -93,7 +94,7 @@ abstract class BaseProvider implements Countable
         $html = '';
         foreach($this->files as $file)
         {
-            $file = str_replace($this->publicPath, '', $file);
+            $file = str_replace($this->publicPath, URL::asset('/'), $file);
             $html .= $this->tag($file, $attributes);
         }
 
