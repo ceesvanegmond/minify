@@ -215,7 +215,7 @@ abstract class BaseProvider implements Countable
     protected function removeOldFiles()
     {
         $pattern = $this->outputDir . $this->getHashedFilename() . '*';
-        foreach (glob($pattern) as $file)
+        foreach ((array) glob($pattern) as $file)
         {
             if ( ! unlink($file) ) {
                 throw new CannotRemoveFileException("File '{$file}' cannot be removed");
