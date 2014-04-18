@@ -21,7 +21,7 @@
     },
     "autoload": {
         "psr-0": {
-            "minicstudio\\Minify": "src/"
+            "MinicStudio\\Minify": "src/"
         }
     },
     "minimum-stability": "stable"
