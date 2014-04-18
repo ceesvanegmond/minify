@@ -1,8 +1,8 @@
-<?php  namespace CeesVanEgmond\Minify; 
+<?php  namespace MinicStudio\Minify; 
 
-use CeesVanEgmond\Minify\Exceptions\InvalidArgumentException;
-use CeesVanEgmond\Minify\Providers\JavaScript;
-use CeesVanEgmond\Minify\Providers\StyleSheet;
+use MinicStudio\Minify\Exceptions\InvalidArgumentException;
+use MinicStudio\Minify\Providers\JavaScript;
+use MinicStudio\Minify\Providers\StyleSheet;
 
 class Minify
 {

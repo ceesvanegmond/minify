@@ -1,4 +1,4 @@
-<?php namespace spec\CeesVanEgmond\Minify\Providers;
+<?php namespace spec\MinicStudio\Minify\Providers;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -8,7 +8,7 @@ class StyleSheetSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType('CeesVanEgmond\Minify\Providers\StyleSheet');
+        $this->shouldHaveType('MinicStudio\Minify\Providers\StyleSheet');
     }
 
     function it_adds_one_file()
@@ -50,13 +50,13 @@ class StyleSheetSpec extends ObjectBehavior
 
     function it_throws_exception_when_file_not_exists()
     {
-        $this->shouldThrow('CeesVanEgmond\Minify\Exceptions\FileNotExistException')
+        $this->shouldThrow('MinicStudio\Minify\Exceptions\FileNotExistException')
             ->duringAdd('foobar');
     }
 
     function it_should_throw_exception_when_buildpath_not_exist()
     {
-        $this->shouldThrow('CeesVanEgmond\Minify\Exceptions\DirNotExistException')
+        $this->shouldThrow('MinicStudio\Minify\Exceptions\DirNotExistException')
             ->duringMake('bar');
     }
 
@@ -64,7 +64,7 @@ class StyleSheetSpec extends ObjectBehavior
     {
         vfsStream::setup('css',0555, array());
 
-        $this->shouldThrow('CeesVanEgmond\Minify\Exceptions\DirNotWritableException')
+        $this->shouldThrow('MinicStudio\Minify\Exceptions\DirNotWritableException')
             ->duringMake(vfsStream::url('css'));
     }
 

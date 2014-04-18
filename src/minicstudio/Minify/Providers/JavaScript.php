@@ -1,6 +1,6 @@
-<?php namespace CeesVanEgmond\Minify\Providers;
+<?php namespace MinicStudio\Minify\Providers;
 
-use CeesVanEgmond\Minify\Contracts\MinifyInterface;
+use MinicStudio\Minify\Contracts\MinifyInterface;
 use JSMin;
 
 class JavaScript extends BaseProvider implements MinifyInterface
