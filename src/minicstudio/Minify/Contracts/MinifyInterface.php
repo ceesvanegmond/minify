@@ -1,4 +1,4 @@
-<?php namespace CeesVanEgmond\Minify\Contracts;
+<?php namespace MinicStudio\Minify\Contracts;
 
 interface MinifyInterface {
 

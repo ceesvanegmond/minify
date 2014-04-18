@@ -1,3 +1,3 @@
-<?php  namespace CeesVanEgmond\Minify\Exceptions; 
+<?php  namespace MinicStudio\Minify\Exceptions; 
 
 class DirNotWritableException extends \Exception {}

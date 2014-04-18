@@ -1,11 +1,12 @@
-<?php  namespace CeesVanEgmond\Minify\Providers;
+<?php  namespace MinicStudio\Minify\Providers;
 
-use CeesVanEgmond\Minify\Exceptions\CannotRemoveFileException;
-use CeesVanEgmond\Minify\Exceptions\CannotSaveFileException;
-use CeesVanEgmond\Minify\Exceptions\DirNotExistException;
-use CeesVanEgmond\Minify\Exceptions\DirNotWritableException;
-use CeesVanEgmond\Minify\Exceptions\FileNotExistException;
+use MinicStudio\Minify\Exceptions\CannotRemoveFileException;
+use MinicStudio\Minify\Exceptions\CannotSaveFileException;
+use MinicStudio\Minify\Exceptions\DirNotExistException;
+use MinicStudio\Minify\Exceptions\DirNotWritableException;
+use MinicStudio\Minify\Exceptions\FileNotExistException;
 use Countable;
+use URL;
 
 abstract class BaseProvider implements Countable
 {
@@ -66,7 +67,7 @@ abstract class BaseProvider implements Countable
     /**
      * @param $file
      * @return array
-     * @throws \CeesVanEgmond\Minify\Exceptions\FileNotExistException
+     * @throws \MinicStudio\Minify\Exceptions\FileNotExistException
      */
     public function add($file)
     {
@@ -75,7 +76,7 @@ abstract class BaseProvider implements Countable
             return array_map(array($this, 'add'), $file);
         }
 
-        $file = $this->publicPath . $file;
+        $file = $this->publicPath .'/'. $file;
         if (!file_exists($file))
         {
             throw new FileNotExistException("File '{$file}' does not exist");
@@ -93,7 +94,7 @@ abstract class BaseProvider implements Countable
         $html = '';
         foreach($this->files as $file)
         {
-            $file = str_replace($this->publicPath, '', $file);
+            $file = str_replace($this->publicPath, URL::asset('/'), $file);
             $html .= $this->tag($file, $attributes);
         }
 
@@ -129,8 +130,8 @@ abstract class BaseProvider implements Countable
     }
 
     /**
-     * @throws \CeesVanEgmond\Minify\Exceptions\DirNotWritableException
-     * @throws \CeesVanEgmond\Minify\Exceptions\DirNotExistException
+     * @throws \MinicStudio\Minify\Exceptions\DirNotWritableException
+     * @throws \MinicStudio\Minify\Exceptions\DirNotExistException
      */
     protected function checkDirectory()
     {
@@ -210,7 +211,7 @@ abstract class BaseProvider implements Countable
     }
 
     /**
-     * @throws \CeesVanEgmond\Minify\Exceptions\CannotRemoveFileException
+     * @throws \MinicStudio\Minify\Exceptions\CannotRemoveFileException
      */
     protected function removeOldFiles()
     {
@@ -231,7 +232,7 @@ abstract class BaseProvider implements Countable
     /**
      * @param $minified
      * @return string
-     * @throws \CeesVanEgmond\Minify\Exceptions\CannotSaveFileException
+     * @throws \MinicStudio\Minify\Exceptions\CannotSaveFileException
      */
     protected function put($minified)
     {

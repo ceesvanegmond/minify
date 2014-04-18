@@ -1,4 +1,4 @@
-<?php namespace CeesVanEgmond\Minify;
+<?php namespace MinicStudio\Minify;
 
 use Config;
 use Illuminate\Foundation\AliasLoader;
@@ -20,11 +20,11 @@ class MinifyServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('ceesvanegmond/minify');
+		$this->package('minicstudio/minify');
 
         AliasLoader::getInstance()->alias(
             'Minify',
-            'CeesVanEgmond\Minify\Facades\Minify'
+            'MinicStudio\Minify\Facades\Minify'
         );
 	}
 
