@@ -20,6 +20,7 @@ Begin by installing this package through Composer.
 ```
 
 ### Laravel installation
+
 ```php
 
 // app/config/app.php
@@ -28,6 +29,11 @@ Begin by installing this package through Composer.
     '...',
     'CeesVanEgmond\Minify\MinifyServiceProvider',
 ];
+```
+
+Publish the config file:
+```
+php artisan config:publish ceesvanegmond/minify
 ```
 
 When you've added the ```MinifyServiceProvider``` an extra ```Minify``` facade is available.
