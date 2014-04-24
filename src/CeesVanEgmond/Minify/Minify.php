@@ -22,7 +22,7 @@ class Minify
     private $environment;
 
     /**
-     * @var
+     * @var \CeesVanEgmond\Minify\Providers\JavaScript
      */
     private $provider;
 
@@ -82,7 +82,7 @@ class Minify
     {
         $this->provider->add($file);
 
-        if($this->provider->make($this->buildPath))
+        if($this->minifyForCurrentEnvironment() && $this->provider->make($this->buildPath))
         {
             $this->provider->minify();
         }
@@ -93,13 +93,21 @@ class Minify
      */
     public function render()
     {
-        if (in_array($this->environment, $this->config['ignore_environments']))
+        if (!$this->minifyForCurrentEnvironment())
         {
             return $this->provider->tags($this->attributes);
         }
 
         return $this->provider->tag($this->buildPath . $this->provider->getFilename(), $this->attributes);
     }
+
+	/**
+	 * @return bool
+	 */
+	protected function minifyForCurrentEnvironment()
+	{
+		return !in_array($this->environment, $this->config['ignore_environments']);
+	}
 
     /**
      * @return string
