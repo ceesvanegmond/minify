@@ -22,7 +22,7 @@ class Minify
     private $environment;
 
     /**
-     * @var \CeesVanEgmond\Minify\Providers\JavaScript
+     * @var
      */
     private $provider;
 
