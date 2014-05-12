@@ -86,14 +86,15 @@ abstract class BaseProvider implements Countable
 
     /**
      * @param $attributes
+     * @param $baseUrl
      * @return string
      */
-    public function tags($attributes)
+    public function tags($attributes, $baseUrl)
     {
         $html = '';
         foreach($this->files as $file)
         {
-            $file = str_replace($this->publicPath, '', $file);
+            $file = $baseUrl . str_replace($this->publicPath, '', $file);
             $html .= $this->tag($file, $attributes);
         }
 

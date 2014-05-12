@@ -32,6 +32,11 @@ class Minify
     private $buildPath;
 
     /**
+     * @var bool
+     */
+    private $fullUrl = false;
+
+    /**
      * @param array $config
      * @param string $environment
      */
@@ -86,6 +91,8 @@ class Minify
         {
             $this->provider->minify();
         }
+
+        $this->fullUrl = false;
     }
 
     /**
@@ -93,12 +100,15 @@ class Minify
      */
     public function render()
     {
+        $baseUrl = $this->fullUrl ? $this->getBaseUrl() : '';
         if (!$this->minifyForCurrentEnvironment())
         {
-            return $this->provider->tags($this->attributes);
+            return $this->provider->tags($this->attributes, $baseUrl);
         }
 
-        return $this->provider->tag($this->buildPath . $this->provider->getFilename(), $this->attributes);
+        $filename = $baseUrl . $this->buildPath . $this->provider->getFilename();
+
+        return $this->provider->tag($filename, $this->attributes);
     }
 
 	/**
@@ -108,6 +118,16 @@ class Minify
 	{
 		return !in_array($this->environment, $this->config['ignore_environments']);
 	}
+
+    /**
+     * @return string
+     */
+    public function fullUrl()
+    {
+        $this->fullUrl = true;
+
+        return $this->render();
+    }
 
     /**
      * @return string
@@ -130,5 +150,16 @@ class Minify
             throw new InvalidArgumentException("Missing js_build_path field");
         if(!isset($config['ignore_environments']) || !is_array($config['ignore_environments']))
             throw new InvalidArgumentException("Missing ignore_environments field");
+    }
+
+    /**
+     * @return string
+     */
+    private function getBaseUrl()
+    {
+        return sprintf("%s://%s",
+            isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
+            $_SERVER['HTTP_HOST']
+        );
     }
 }
