@@ -81,24 +81,24 @@ class Minify
      * @param $dir
      * @return string
      */
-    public function stylesheet_dir($dir)
+    public function stylesheetDir($dir)
     {
 	$this->provider = new StyleSheet(public_path());
 	$this->buildPath = $this->config['css_build_path'];
 	
-	return $this->asset_dir_helper('css', $dir);
+	return $this->assetDirHelper('css', $dir);
     }
  	
     /**
      * @param $dir
      * @return string
      */	
-    public function javascript_dir($dir)
+    public function javascriptDir($dir)
     {
 	$this->provider = new JavaScript(public_path());
 	$this->buildPath = $this->config['js_build_path'];
 	
-	return $this->asset_dir_helper('js', $dir);
+	return $this->assetDirHelper('js', $dir);
     }
 	
     /**
@@ -106,7 +106,7 @@ class Minify
      * @param $dir
      * @return string
      */	
-    private function asset_dir_helper($ext, $dir)
+    private function assetDirHelper($ext, $dir)
     {
 	$files = array();
 	
@@ -120,7 +120,9 @@ class Minify
 	}
 	 
 	if (count($files) > 0)
+	{
 		$this->process($files);
+	}
 	
 	return $this;
     }
