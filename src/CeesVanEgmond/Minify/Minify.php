@@ -3,6 +3,8 @@
 use CeesVanEgmond\Minify\Exceptions\InvalidArgumentException;
 use CeesVanEgmond\Minify\Providers\JavaScript;
 use CeesVanEgmond\Minify\Providers\StyleSheet;
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
 
 class Minify
 {
@@ -30,6 +32,11 @@ class Minify
      * @var
      */
     private $buildPath;
+
+    /**
+     * @var bool
+     */
+    private $fullUrl = false;
 
     /**
      * @param array $config
@@ -76,6 +83,56 @@ class Minify
     }
 
     /**
+     * @param $dir
+     * @return string
+     */
+    public function stylesheetDir($dir)
+    {
+	$this->provider = new StyleSheet(public_path());
+	$this->buildPath = $this->config['css_build_path'];
+	
+	return $this->assetDirHelper('css', $dir);
+    }
+ 	
+    /**
+     * @param $dir
+     * @return string
+     */	
+    public function javascriptDir($dir)
+    {
+	$this->provider = new JavaScript(public_path());
+	$this->buildPath = $this->config['js_build_path'];
+	
+	return $this->assetDirHelper('js', $dir);
+    }
+	
+    /**
+     * @param $ext
+     * @param $dir
+     * @return string
+     */	
+    private function assetDirHelper($ext, $dir)
+    {
+	$files = array();
+	
+	$dir_obj = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(public_path().$dir));
+	foreach ($dir_obj as $fileinfo) 
+	{
+		if (!$fileinfo->isDir() && ($filename = $fileinfo->getFilename()) && (pathinfo($filename, PATHINFO_EXTENSION) == $ext) && (strlen($fileinfo->getFilename()) < 30)) 
+		{
+			$files[] = str_replace(public_path(), '', $fileinfo);
+		}
+	}
+	 
+	if (count($files) > 0)
+	{
+		$this->process($files);
+	}
+	
+	return $this;
+    }
+	
+    /**
      * @param $file
      */
     private function process($file)
@@ -86,6 +143,8 @@ class Minify
         {
             $this->provider->minify();
         }
+
+        $this->fullUrl = false;
     }
 
     /**
@@ -93,12 +152,15 @@ class Minify
      */
     public function render()
     {
+        $baseUrl = $this->fullUrl ? $this->getBaseUrl() : '';
         if (!$this->minifyForCurrentEnvironment())
         {
-            return $this->provider->tags($this->attributes);
+            return $this->provider->tags($this->attributes, $baseUrl);
         }
 
-        return $this->provider->tag($this->buildPath . $this->provider->getFilename(), $this->attributes);
+        $filename = $baseUrl . $this->buildPath . $this->provider->getFilename();
+
+        return $this->provider->tag($filename, $this->attributes);
     }
 
 	/**
@@ -108,6 +170,16 @@ class Minify
 	{
 		return !in_array($this->environment, $this->config['ignore_environments']);
 	}
+
+    /**
+     * @return string
+     */
+    public function withFullUrl()
+    {
+        $this->fullUrl = true;
+
+        return $this->render();
+    }
 
     /**
      * @return string
@@ -130,5 +202,16 @@ class Minify
             throw new InvalidArgumentException("Missing js_build_path field");
         if(!isset($config['ignore_environments']) || !is_array($config['ignore_environments']))
             throw new InvalidArgumentException("Missing ignore_environments field");
+    }
+
+    /**
+     * @return string
+     */
+    private function getBaseUrl()
+    {
+        return sprintf("%s://%s",
+            isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
+            $_SERVER['HTTP_HOST']
+        );
     }
 }
