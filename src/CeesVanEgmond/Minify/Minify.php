@@ -3,6 +3,8 @@
 use CeesVanEgmond\Minify\Exceptions\InvalidArgumentException;
 use CeesVanEgmond\Minify\Providers\JavaScript;
 use CeesVanEgmond\Minify\Providers\StyleSheet;
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
 
 class Minify
 {
@@ -80,6 +82,56 @@ class Minify
         return $this;
     }
 
+    /**
+     * @param $dir
+     * @return string
+     */
+    public function stylesheetDir($dir)
+    {
+	$this->provider = new StyleSheet(public_path());
+	$this->buildPath = $this->config['css_build_path'];
+	
+	return $this->assetDirHelper('css', $dir);
+    }
+ 	
+    /**
+     * @param $dir
+     * @return string
+     */	
+    public function javascriptDir($dir)
+    {
+	$this->provider = new JavaScript(public_path());
+	$this->buildPath = $this->config['js_build_path'];
+	
+	return $this->assetDirHelper('js', $dir);
+    }
+	
+    /**
+     * @param $ext
+     * @param $dir
+     * @return string
+     */	
+    private function assetDirHelper($ext, $dir)
+    {
+	$files = array();
+	
+	$dir_obj = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(public_path().$dir));
+	foreach ($dir_obj as $fileinfo) 
+	{
+		if (!$fileinfo->isDir() && ($filename = $fileinfo->getFilename()) && (pathinfo($filename, PATHINFO_EXTENSION) == $ext) && (strlen($fileinfo->getFilename()) < 30)) 
+		{
+			$files[] = str_replace(public_path(), '', $fileinfo);
+		}
+	}
+	 
+	if (count($files) > 0)
+	{
+		$this->process($files);
+	}
+	
+	return $this;
+    }
+	
     /**
      * @param $file
      */
