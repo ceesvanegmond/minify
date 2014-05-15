@@ -122,7 +122,7 @@ class Minify
     /**
      * @return string
      */
-    public function fullUrl()
+    public function withFullUrl()
     {
         $this->fullUrl = true;
 

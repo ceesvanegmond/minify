@@ -51,6 +51,9 @@ You can use this Facade anywhere in your application
 		{{ Minify::stylesheet(array('/css/main.css', '/css/bootstrap.css')) }}
 		//add custom attributes
 		{{ Minify::stylesheet(array('/css/main.css', '/css/bootstrap.css'), array('foo' => 'bar')) }}
+		// add full uri of the resource
+		{{ Minify::stylesheet(array('/css/main.css', '/css/bootstrap.css'))->withFullUrl() }}
+
 	</head>
 	...
 </html>
@@ -70,6 +73,8 @@ You can use this Facade anywhere in your application
 	{{ Minify::javascript(array('/js/jquery.js', '/js/jquery-ui.js')) }}
 	//add custom attributes
 	{{ Minify::javascript(array('/js/jquery.js', '/js/jquery-ui.js'), array('bar' => 'baz')) }}
+	// add full uri of the resource
+	{{ Minify::javascript(array('/js/jquery.js', '/js/jquery-ui.js'))->withFullUrl() }}
 </html>
 
 ```
