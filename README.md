@@ -47,14 +47,19 @@ You can use this Facade anywhere in your application
 	<head>
 		...
 		{{ Minify::stylesheet('/css/main.css') }}
-		//or by passing multiple files
+		// or by passing multiple files
 		{{ Minify::stylesheet(array('/css/main.css', '/css/bootstrap.css')) }}
-		//add custom attributes
+		// add custom attributes
 		{{ Minify::stylesheet(array('/css/main.css', '/css/bootstrap.css'), array('foo' => 'bar')) }}
 		// add full uri of the resource
-		{{ Minify::stylesheet(array('/css/main.css', '/css/bootstrap.css'))->withFullUrl() }}		
-		// Minify and combine all stylesheet files in given folder
+		{{ Minify::stylesheet(array('/css/main.css', '/css/bootstrap.css'))->withFullUrl() }}
+		
+		// minify and combine all stylesheet files in given folder
 		{{ Minify::stylesheetDir('/css/') }}
+		// add custom attributes to minify and combine all stylesheet files in given folder
+		{{ Minify::stylesheetDir('/css/', array('foo' => 'bar')) }}
+		// minify and combine all stylesheet files in given folder with full uri
+		{{ Minify::stylesheetDir('/css/')->withFullUrl() }}
 	</head>
 	...
 </html>
@@ -70,14 +75,19 @@ You can use this Facade anywhere in your application
 	...
 	</body>
 	{{ Minify::javascript('/js/jquery.js') }}
-	//or by passing multiple files
+	// or by passing multiple files
 	{{ Minify::javascript(array('/js/jquery.js', '/js/jquery-ui.js')) }}
-	//add custom attributes
+	// add custom attributes
 	{{ Minify::javascript(array('/js/jquery.js', '/js/jquery-ui.js'), array('bar' => 'baz')) }}
 	// add full uri of the resource
 	{{ Minify::javascript(array('/js/jquery.js', '/js/jquery-ui.js'))->withFullUrl() }}	
-	// Minify and combine all javascript files in given folder
+	
+	// minify and combine all javascript files in given folder
 	{{ Minify::javascriptDir('/js/') }}
+	// add custom attributes to minify and combine all javascript files in given folder
+	{{ Minify::javascriptDir('/js/', array('bar' => 'baz')) }}
+	// minify and combine all javascript files in given folder with full uri
+	{{ Minify::javascriptDir('/js/')->withFullUrl() }}
 </html>
 
 ```
@@ -106,10 +116,10 @@ return array(
     | CSS path and CSS build path
     |--------------------------------------------------------------------------
     |
-    | Minify is an extention that can minify your css files into one build file.
+    | Minify is an extension that can minify your css files into one build file.
     | The css_path property is the location where your CSS files are located
     | The css_builds_path property is the location where the builded files are
-    | stored.  THis is relative to the css_path property.
+    | stored.  This is relative to the css_path property.
     |
     */
 
@@ -120,10 +130,10 @@ return array(
     | JS path and JS build path
     |--------------------------------------------------------------------------
     |
-    | Minify is an extention that can minify your JS files into one build file.
+    | Minify is an extension that can minify your JS files into one build file.
     | The JS_path property is the location where your JS files are located
     | The JS_builds_path property is the location where the builded files are
-    | stored.  THis is relative to the css_path property.
+    | stored.  This is relative to the css_path property.
     |
     */
 
