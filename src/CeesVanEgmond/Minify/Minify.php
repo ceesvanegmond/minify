@@ -216,10 +216,17 @@ class Minify
      * @return string
      */
     private function getBaseUrl()
-    {
-        return sprintf("%s://%s",
-            isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
-            $_SERVER['HTTP_HOST']
-        );
+    {	
+		if (is_null($this->config['base_url']) || (trim($this->config['base_url']) == ''))
+		{
+			return sprintf("%s://%s",
+				isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
+				$_SERVER['HTTP_HOST']
+			);
+		}
+		else
+		{
+			return $this->config['base_url'];
+		}
     }
 }
