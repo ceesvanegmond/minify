@@ -39,6 +39,11 @@ class Minify
     private $fullUrl = false;
 
     /**
+     * @var bool
+     */
+    private $onlyUrl = false;
+
+    /**
      * @param array $config
      * @param string $environment
      */
@@ -158,15 +163,21 @@ class Minify
     /**
      * @return mixed
      */
-    public function render()
+    protected function render()
     {
         $baseUrl = $this->fullUrl ? $this->getBaseUrl() : '';
+
         if (!$this->minifyForCurrentEnvironment())
         {
             return $this->provider->tags($this->attributes, $baseUrl);
         }
 
         $filename = $baseUrl . $this->buildPath . $this->provider->getFilename();
+
+        if ($this->onlyUrl)
+        {
+            return $filename;
+        }
 
         return $this->provider->tag($filename, $this->attributes);
     }
@@ -186,7 +197,17 @@ class Minify
     {
         $this->fullUrl = true;
 
-        return $this->render();
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function onlyUrl()
+    {
+        $this->onlyUrl = true;
+
+        return $this;
     }
 
     /**
