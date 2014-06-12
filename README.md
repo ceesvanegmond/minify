@@ -5,7 +5,7 @@
 [![Total Downloads](https://poser.pugx.org/ceesvanegmond/minify/downloads.png)](https://packagist.org/packages/ceesvanegmond/minify)
 [![License](https://poser.pugx.org/ceesvanegmond/minify/license.png)](https://packagist.org/packages/ceesvanegmond/minify)
 
-With this package you can minify your existing stylessheet and javascript files. This process can be a little tough, this package simplies this process and automates it.
+With this package you can minify your existing stylesheet and javascript files. This process can be a little tough, this package simplies this process and automates it.
 
 ## Installation
 
