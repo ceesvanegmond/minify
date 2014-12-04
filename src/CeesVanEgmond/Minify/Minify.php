@@ -206,7 +206,7 @@ class Minify
    */
   private function getBaseUrl() {
     if (is_null($this->config['base_url']) || (trim($this->config['base_url']) == '')) {
-      return sprintf("%s://%s", (Request::secure()) ? 'https' : 'http', $_SERVER['HTTP_HOST']);
+      return Request::root();
     } else {
       return $this->config['base_url'];
     }
