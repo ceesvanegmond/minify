@@ -12,5 +12,5 @@ interface MinifyInterface {
      * @param $attributes
      * @return mixed
      */
-    public function tag($file, array $attributes);
+    public function tag($file, array $attributes, $async, $defer);
 }
