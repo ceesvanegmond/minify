@@ -25,12 +25,10 @@ class JavaScript extends BaseProvider implements MinifyInterface
      * @param array $attributes
      * @return string
      */
-    public function tag($file, array $attributes, $async, $defer)
+    public function tag($file, array $attributes)
     {
-        $attributes['src'] = $file;
-        $async = ($async) ? ' async' : '' ;
-        $defer = ($defer) ? ' defer' : '' ;
+        $attributes = array('src' => $file) + $attributes;
 
-        return "<script{$this->attributes($attributes)}{$async}{$defer}></script>" . PHP_EOL;
+        return "<script{$this->attributes($attributes)}></script>" . PHP_EOL;
     }
 }

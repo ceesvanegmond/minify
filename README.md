@@ -57,7 +57,7 @@ You can use this Facade anywhere in your application
 		// minify and combine all stylesheet files in given folder
 		{{ Minify::stylesheetDir('/css/') }}
 		// add custom attributes to minify and combine all stylesheet files in given folder
-		{{ Minify::stylesheetDir('/css/', array('foo' => 'bar')) }}
+		{{ Minify::stylesheetDir('/css/', array('foo' => 'bar', 'defer' => true)) }}
 		// minify and combine all stylesheet files in given folder with full uri
 		{{ Minify::stylesheetDir('/css/')->withFullUrl() }}
 	</head>
@@ -85,7 +85,7 @@ You can use this Facade anywhere in your application
 	// minify and combine all javascript files in given folder
 	{{ Minify::javascriptDir('/js/') }}
 	// add custom attributes to minify and combine all javascript files in given folder
-	{{ Minify::javascriptDir('/js/', array('bar' => 'baz')) }}
+	{{ Minify::javascriptDir('/js/', array('bar' => 'baz', 'async' => true)) }}
 	// minify and combine all javascript files in given folder with full uri
 	{{ Minify::javascriptDir('/js/')->withFullUrl() }}
 </html>

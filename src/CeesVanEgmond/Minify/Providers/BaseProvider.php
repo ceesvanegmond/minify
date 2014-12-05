@@ -176,15 +176,19 @@ abstract class BaseProvider implements Countable
     /**
      * Build a single attribute element.
      *
-     * @param  string  $key
-     * @param  string  $value
+     * @param  string|integer $key
+     * @param  string|boolean $value
      * @return string
      */
     protected function attributeElement($key, $value)
     {
         if (is_numeric($key)) $key = $value;
 
-        if ( ! is_null($value)) return $key.'="'.htmlentities($value, ENT_QUOTES, 'UTF-8', false).'"';
+        if(is_bool($value))
+            return ' '.$key.' ';
+
+        if ( ! is_null($value))
+            return $key.'="'.htmlentities($value, ENT_QUOTES, 'UTF-8', false).'"';
     }
 
     /**
@@ -217,7 +221,7 @@ abstract class BaseProvider implements Countable
     {
         $pattern = $this->outputDir . $this->getHashedFilename() . '*';
         $find = glob($pattern);
-        
+
         if( is_array($find) && count($find) )
         {
             foreach ($find as $file)
@@ -259,4 +263,4 @@ abstract class BaseProvider implements Countable
     {
         return $this->filename;
     }
-} 
+}
