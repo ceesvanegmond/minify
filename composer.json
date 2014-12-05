@@ -1,28 +1,33 @@
 {
-    "name": "ceesvanegmond/minify",
-    "keywords": ["minify", "laravel"],
-    "description": "A package for minifying styles and javascript ",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Cees van Egmond",
-            "email": "cees@ceesvanegmond.com"
-        }
-    ],
-    "require": {
-        "php": ">=5.3.2",
-        "linkorb/jsmin-php": "1.*",
-        "natxet/CssMin": "3.*",
-        "illuminate/support": "~4.1"
-    },
-    "require-dev": {
-        "phpspec/phpspec": "2.0.0",
-        "mikey179/vfsStream": "1.2.*"
-    },
-    "autoload": {
-        "psr-0": {
-            "CeesVanEgmond\\Minify": "src/"
-        }
-    },
-    "minimum-stability": "stable"
+  "name": "ceesvanegmond/minify",
+  "keywords": ["minify", "laravel"],
+  "description": "A package for minifying styles and javascript ",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Cees van Egmond",
+      "email": "cees@ceesvanegmond.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.2",
+    "tedivm/jshrink": "~1.0",
+    "natxet/CssMin": "3.*",
+    "illuminate/support": "~4.1"
+  },
+  "require-dev": {
+    "phpspec/phpspec": "2.0.0",
+    "mikey179/vfsStream": "1.2.*"
+  },
+  "autoload": {
+    "psr-0": {
+      "CeesVanEgmond\\Minify": "src/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "2.0.x-dev"
+    }
+  },
+  "minimum-stability": "dev"
 }

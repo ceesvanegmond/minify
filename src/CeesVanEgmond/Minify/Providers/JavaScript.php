@@ -1,7 +1,7 @@
 <?php namespace CeesVanEgmond\Minify\Providers;
 
 use CeesVanEgmond\Minify\Contracts\MinifyInterface;
-use JSMin;
+use JShrink\Minifier;
 
 class JavaScript extends BaseProvider implements MinifyInterface
 {
@@ -15,7 +15,7 @@ class JavaScript extends BaseProvider implements MinifyInterface
      */
     public function minify()
     {
-        $minified = JSMin::minify($this->appended);
+        $minified = Minifier::minify($this->appended);
 
         return $this->put($minified);
     }
