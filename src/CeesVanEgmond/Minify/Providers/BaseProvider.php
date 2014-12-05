@@ -217,7 +217,7 @@ abstract class BaseProvider implements Countable
     {
         $pattern = $this->outputDir . $this->getHashedFilename() . '*';
         $find = glob($pattern);
-        
+
         if( is_array($find) && count($find) )
         {
             foreach ($find as $file)
@@ -259,4 +259,4 @@ abstract class BaseProvider implements Countable
     {
         return $this->filename;
     }
-} 
+}
