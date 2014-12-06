@@ -29,6 +29,6 @@ class JavaScript extends BaseProvider implements MinifyInterface
     {
         $attributes = array('src' => $file) + $attributes;
 
-        return "<script{$this->attributes($attributes)}></script>" . PHP_EOL;
+        return "<script {$this->attributes($attributes)}></script>" . PHP_EOL;
     }
 }

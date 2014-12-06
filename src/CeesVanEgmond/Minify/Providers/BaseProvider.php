@@ -64,32 +64,35 @@ abstract class BaseProvider implements Countable
     }
 
     /**
-     * @param $file
-     * @return array
+     * @param  $file
+     * @return void
      * @throws \CeesVanEgmond\Minify\Exceptions\FileNotExistException
      */
     public function add($file)
     {
         if (is_array($file))
         {
-            return array_map(array($this, 'add'), $file);
+            array_map(array($this, 'add'), $file);
         }
-
-        $file = $this->publicPath . $file;
-        if (!file_exists($file))
+        else
         {
-            throw new FileNotExistException("File '{$file}' does not exist");
-        }
+            $file = $this->publicPath . $file;
+            if (!file_exists($file))
+            {
+                throw new FileNotExistException("File '{$file}' does not exist");
+            }
 
-        $this->files[] = $file;
+            $this->files[] = $file;
+        }
     }
 
     /**
+     * @param      $baseUrl
      * @param $attributes
-     * @param $baseUrl
+     *
      * @return string
      */
-    public function tags($attributes, $baseUrl)
+    public function tags($baseUrl, $attributes)
     {
         $html = '';
         foreach($this->files as $file)
@@ -170,7 +173,9 @@ abstract class BaseProvider implements Countable
             if ( ! is_null($element)) $html[] = $element;
         }
 
-        return count($html) > 0 ? ' '.implode(' ', $html) : '';
+        $output = count($html) > 0 ? ' '.implode(' ', $html) : '';
+
+        return trim($output);
     }
 
     /**
@@ -178,17 +183,19 @@ abstract class BaseProvider implements Countable
      *
      * @param  string|integer $key
      * @param  string|boolean $value
-     * @return string
+     * @return string|null
      */
     protected function attributeElement($key, $value)
     {
         if (is_numeric($key)) $key = $value;
 
         if(is_bool($value))
-            return ' '.$key.' ';
+            return $key;
 
         if ( ! is_null($value))
             return $key.'="'.htmlentities($value, ENT_QUOTES, 'UTF-8', false).'"';
+
+        return null;
     }
 
     /**
