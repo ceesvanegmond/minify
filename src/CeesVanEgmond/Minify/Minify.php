@@ -20,15 +20,6 @@ class Minify
   protected $attributes = array();
 
   /**
-   * @var bool
-   */
-  protected $async = false;
-
-  /**
-   * @var bool
-   */
-  protected $defer = false;
-  /**
    * @var string
    */
   private $environment;
@@ -69,13 +60,10 @@ class Minify
    * @param array $attributes
    * @return string
    */
-  public function javascript($file, $attributes = array(), $async = false, $defer = false) {
+  public function javascript($file, $attributes = array()) {
     $this->provider = new JavaScript(public_path());
     $this->buildPath = $this->config['js_build_path'];
     $this->attributes = $attributes;
-
-    $this->async = $async;
-    $this->defer = $defer;
 
     $this->process($file);
 
@@ -115,13 +103,10 @@ class Minify
    * @param array $attributes
    * @return string
    */
-  public function javascriptDir($dir, $attributes = array(), $async = false, $defer = false) {
+  public function javascriptDir($dir, $attributes = array()) {
     $this->provider = new JavaScript(public_path());
     $this->buildPath = $this->config['js_build_path'];
     $this->attributes = $attributes;
-
-    $this->async = $async;
-    $this->defer = $defer;
 
     return $this->assetDirHelper('js', $dir);
   }
@@ -177,7 +162,7 @@ class Minify
     $baseUrl = $this->fullUrl ? $this->getBaseUrl() : '';
     if (!$this->minifyForCurrentEnvironment())
       {
-        return $this->provider->tags($this->attributes, $baseUrl);
+        return $this->provider->tags($baseUrl, $this->attributes);
       }
 
     $filename = $baseUrl . $this->buildPath . $this->provider->getFilename();
@@ -186,7 +171,7 @@ class Minify
       return $filename;
     }
 
-    return $this->provider->tag($filename, $this->attributes, $this->async, $this->defer);
+    return $this->provider->tag($filename, $this->attributes);
   }
 
   /**

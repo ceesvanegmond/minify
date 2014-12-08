@@ -8,9 +8,9 @@ interface MinifyInterface {
     public function minify();
 
     /**
-     * @param $file
-     * @param $attributes
+     * @param  string $file
+     * @param  array  $attributes
      * @return mixed
      */
-    public function tag($file, array $attributes, $async, $defer);
+    public function tag($file, array $attributes);
 }

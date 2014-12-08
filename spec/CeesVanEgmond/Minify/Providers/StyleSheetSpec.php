@@ -38,8 +38,8 @@ class StyleSheetSpec extends ObjectBehavior
 
     function it_adds_custom_attributes()
     {
-        $this->tag('file', array('foobar' => 'baz'))
-            ->shouldReturn('<link foobar="baz" href="file" rel="stylesheet">' . PHP_EOL);
+        $this->tag('file', array('foobar' => 'baz', 'defer' => true))
+            ->shouldReturn('<link href="file" rel="stylesheet" foobar="baz" defer>' . PHP_EOL);
     }
 
     function it_adds_without_custom_attributes()
