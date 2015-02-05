@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Facade;
 
-class Minify extends Facade
+class MinifyFacade extends Facade
 {
     /**
      * Name of the binding in the IoC container
@@ -11,6 +11,6 @@ class Minify extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'Minify';
+        return 'minify';
     }
 }
