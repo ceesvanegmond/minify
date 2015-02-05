@@ -1,5 +1,7 @@
 # Minify
 
+For laravel 5 please use [devfactory/minify](https://github.com/DevFactoryCH/minify)
+
 [![Build Status](https://travis-ci.org/ceesvanegmond/minify.svg?branch=master)](https://travis-ci.org/ceesvanegmond/minify)
 [![Latest Stable Version](https://poser.pugx.org/ceesvanegmond/minify/v/stable.png)](https://packagist.org/packages/ceesvanegmond/minify)
 [![Total Downloads](https://poser.pugx.org/ceesvanegmond/minify/downloads.png)](https://packagist.org/packages/ceesvanegmond/minify)
@@ -53,7 +55,7 @@ You can use this Facade anywhere in your application
 		{{ Minify::stylesheet(array('/css/main.css', '/css/bootstrap.css'), array('foo' => 'bar')) }}
 		// add full uri of the resource
 		{{ Minify::stylesheet(array('/css/main.css', '/css/bootstrap.css'))->withFullUrl() }}
-		
+
 		// minify and combine all stylesheet files in given folder
 		{{ Minify::stylesheetDir('/css/') }}
 		// add custom attributes to minify and combine all stylesheet files in given folder
@@ -80,8 +82,8 @@ You can use this Facade anywhere in your application
 	// add custom attributes
 	{{ Minify::javascript(array('/js/jquery.js', '/js/jquery-ui.js'), array('bar' => 'baz')) }}
 	// add full uri of the resource
-	{{ Minify::javascript(array('/js/jquery.js', '/js/jquery-ui.js'))->withFullUrl() }}	
-	
+	{{ Minify::javascript(array('/js/jquery.js', '/js/jquery-ui.js'))->withFullUrl() }}
+
 	// minify and combine all javascript files in given folder
 	{{ Minify::javascriptDir('/js/') }}
 	// add custom attributes to minify and combine all javascript files in given folder
@@ -166,5 +168,5 @@ if ( ! $minify->make($config['css_build_path'] ) {
 $provider->minify();
 
 $filename = $provider->tag($config['css_build_path'] . $provider->getFilename());
-        
+
 ```
