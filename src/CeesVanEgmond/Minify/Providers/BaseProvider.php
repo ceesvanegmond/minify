@@ -215,7 +215,14 @@ abstract class BaseProvider implements Countable
 
         foreach ($this->files as $file)
         {
-            $time += filemtime($file);
+            if ($this->checkExternalFile($file))
+            {
+                $userAgent = isset($this->headers['User-Agent']) ? $this->headers['User-Agent'] : '';
+                $time += hexdec(substr(md5($file . $userAgent), 0, 8));
+            }
+            else {
+                $time += filemtime($file);
+            }
         }
 
         return $time;
