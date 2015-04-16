@@ -150,6 +150,16 @@ abstract class BaseProvider implements Countable
     }
 
     /**
+     * @param  string  $file
+     * @return bool
+     */
+    protected function checkExternalFile($file)
+    {
+        return preg_match('/^(https?:)?\/\//', $file);
+    }
+
+
+    /**
      * @return string
      */
     protected function buildMinifiedFilename()
